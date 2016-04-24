@@ -20,7 +20,7 @@
   when: erlang_downloaded.changed
 
 - name: Erlang | Build erlang from source - pt. 1 (configure)
-  command: "./configure chdir=/tmp/otp_src_{{erlang_version}} CFLAGS=\"-D_GNU_SOURCE -DOPENSSL_NO_EC=1\""
+  command: "{{ erlang_configure_flags }}"
   when: erlang_downloaded.changed
 
 - name: Erlang | Build erlang from source - pt. 2 (make)

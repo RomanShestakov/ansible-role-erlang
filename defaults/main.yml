@@ -2,4 +2,4 @@
 
 erlang_version: "R16B03-1"
 erlang_build_flags: ""
-erlang_configure_flags: "./configure chdir=/tmp/otp_src_{{erlang_version}} --with-ssl=/usr/local/ssl --enable-hipe --enable-threads --enable-smp-support --enable-kernel-poll"
+erlang_configure_flags: "./configure chdir=/tmp/otp_src_{{erlang_version}} --with-ssl=/usr/include/openssl --enable-hipe --enable-threads --enable-smp-support --enable-kernel-poll"

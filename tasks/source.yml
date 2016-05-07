@@ -16,19 +16,10 @@
   register: erlang_downloaded
 
 - name: Erlang | Unpack the compressed erlang source
-  command: tar -xvzf /tmp/otp_src_{{erlang_version}}.tar.gz chdir=/tmp creates=/tmp/otp_src_{{erlang_version}}/README.md
+  command: tar -xvzf /tmp/otp_src_{{erlang_version}}.tar.gz
+           chdir=/tmp
+           creates=/tmp/otp_src_{{erlang_version}}/README.md
   when: erlang_downloaded.changed
-
-- name: Erlang | Copy epmd-systemd patch
-  copy: scr=epmd-systemd.patch dest=/tmp mode=644
-  #when: erlang_downloaded.changed
-
-- name: Erlang | Apply epmd-systemd patch
-  script: files/apply-epmd-patch.sh
-          -p "epmd-systemd.patch"
-          -r "/tmp/otp_src_{{erlang_version}}"
-          creates=epmd-systemd-patch-applied.txt
-  #when: erlang_downloaded.changed
 
 - name: Erlang | Build erlang from source - pt. 1 (configure)
   command: "./configure chdir=/tmp/otp_src_{{erlang_version}}"
@@ -42,3 +33,16 @@
   become: true
   command: "make install chdir=/tmp/otp_src_{{erlang_version}}"
   when: erlang_downloaded.changed
+
+- name: Erlang | Copy epmd.socket and epmd.service
+  copy: src={{item}}
+        dest=/etc/systemd/system/{{item}}
+        mode=644
+        owner=root
+  with_fileglob:
+    "epmd.socket"
+    "empd.service"
+  #when: erlang_downloaded.changed
+
+- name: Erlang | restart epmd.socket
+  action: service name=erlpmd.socket state=restarted

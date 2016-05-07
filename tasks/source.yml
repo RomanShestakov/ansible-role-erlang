@@ -35,13 +35,16 @@
   when: erlang_downloaded.changed
 
 - name: Erlang | Copy epmd.socket and epmd.service
-  copy: src={{item}}
-        dest=/etc/systemd/system/{{item}}
+  copy: src=epmd.socket
+        dest=/etc/systemd/system/empd.socket
         mode=644
         owner=root
-  with_fileglob:
-    "epmd.socket"
-    "empd.service"
+
+- name: Erlang | Copy epmd.socket and epmd.service
+  copy: src=epmd.service
+        dest=/etc/systemd/system/empd.service
+        mode=644
+        owner=root
   #when: erlang_downloaded.changed
 
 - name: Erlang | restart epmd.socket

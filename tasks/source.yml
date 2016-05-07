@@ -21,14 +21,14 @@
 
 - name: Erlang | Copy epmd-systemd patch
   copy: scr=epmd-systemd.patch dest=/tmp mode=644
-  when: erlang_downloaded.changed
+  #when: erlang_downloaded.changed
 
 - name: Erlang | Apply epmd-systemd patch
   script: files/apply-epmd-patch.sh
           -p "epmd-systemd.patch"
           -r "/tmp/otp_src_{{erlang_version}}"
           creates=epmd-systemd-patch-applied.txt
-  when: erlang_downloaded.changed
+  #when: erlang_downloaded.changed
 
 - name: Erlang | Build erlang from source - pt. 1 (configure)
   command: "./configure chdir=/tmp/otp_src_{{erlang_version}}"

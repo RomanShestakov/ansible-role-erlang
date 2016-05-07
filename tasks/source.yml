@@ -33,19 +33,3 @@
   become: true
   command: "make install chdir=/tmp/otp_src_{{erlang_version}}"
   when: erlang_downloaded.changed
-
-- name: Erlang | Copy epmd.socket and epmd.service
-  copy: src=epmd.socket
-        dest=/etc/systemd/system/empd.socket
-        mode=644
-        owner=root
-
-- name: Erlang | Copy epmd.socket and epmd.service
-  copy: src=epmd.service
-        dest=/etc/systemd/system/empd.service
-        mode=644
-        owner=root
-  #when: erlang_downloaded.changed
-
-- name: Erlang | restart epmd.socket
-  action: service name=erlpmd.socket state=restarted

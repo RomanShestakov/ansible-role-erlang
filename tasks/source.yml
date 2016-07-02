@@ -19,6 +19,7 @@
   unarchive:
     src: "/tmp/otp_src_{{erlang_version}}.tar.gz"
     dest: "/tmp"
+    copy: no
   when: erlang_downloaded.changed
 
 - name: Erlang | Build erlang from source - pt. 1 (configure)

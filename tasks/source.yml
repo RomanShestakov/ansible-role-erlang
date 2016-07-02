@@ -16,9 +16,9 @@
   register: erlang_downloaded
 
 - name: Erlang | Unpack the compressed erlang source
-  command: tar -xvzf /tmp/otp_src_{{erlang_version}}.tar.gz
-           chdir=/tmp
-           creates=/tmp/otp_src_{{erlang_version}}/README.md
+  unarchive:
+    src: "/tmp/otp_src_{{erlang_version}}.tar.gz"
+    dest: "/tmp"
   when: erlang_downloaded.changed
 
 - name: Erlang | Build erlang from source - pt. 1 (configure)
